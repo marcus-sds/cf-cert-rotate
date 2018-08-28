@@ -27,6 +27,14 @@
 
 1. deploy CloudFoundry again and Others
 
+1. remove old consul ca
+
+    python cf-cert-rotate.py -c **remove_consul_ca** -o [temp old certfile] -n [temp new certfile] -r [result certfile]
+
+    > result_certfile should be varstore file when deploy cf
+
+1. deploy CloudFoundry again and Others
+
 
 ## Issue
 
