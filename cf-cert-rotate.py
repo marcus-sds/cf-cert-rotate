@@ -19,7 +19,7 @@ import argparse
 
 DEBUG=False
 
-IGNORES=['diego_rep_agent_v2']
+ADDCA_IGNORES=['diego_rep_agent_v2',"consul_agent","consul_server"]
 
 def chk_cert(results, isca, oldfile, newfile, outname):
     oldstream = open(oldfile,'r')
@@ -40,7 +40,7 @@ def chk_cert(results, isca, oldfile, newfile, outname):
 
                     ## Add ca and ca certificate
                     if isca == 'addca':
-                        if v.get('ca') and not k in IGNORES:
+                        if v.get('ca') and not k in ADDCA_IGNORES:
                             print('-------must be old,new certificate orders-------', k)
                             try:
                                 doc[k]['ca']= doc[k]['ca']+newdoc[k]['ca']
