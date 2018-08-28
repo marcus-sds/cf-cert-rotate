@@ -6,20 +6,14 @@ import argparse
 
 # how to install requirements - $ apt-get install python-yaml
 
-# rotate cert
-# 1. new cert file generate
-# 2. python cert.py -c addca -o <temp old certfile> -n <temp new certfile> -r <certfile>
-# deploy
-# 3. python cert.py -c removeca -o <temp old certfile> -n <temp new certfile> -r <certfile>
-# redeploy
-# 4. python cert.py -c removeca -o <temp old certfile> -n <temp new certfile> -r <certfile>
-#
 # example
 # python cert.py -o varstore/deployment-vars.yml.old -n varstore/deployment-vars.yml.new -r varstore/deployment-vars.yml -c addca
 
 DEBUG=False
 
 ADDCA_IGNORES=['diego_rep_agent_v2',"consul_agent","consul_server"]
+REMOVECA_IGNORES=["consul_agent_ca"]
+CONSULCA=["consul_agent_ca"]
 
 def chk_cert(results, isca, oldfile, newfile, outname):
     oldstream = open(oldfile,'r')
@@ -49,13 +43,24 @@ def chk_cert(results, isca, oldfile, newfile, outname):
                                 pass
 
                     elif isca == 'removeca':
-                        print('-------must be new certificate and key-------', k)
-                        try:
-                            doc[k]['ca']= newdoc[k]['ca']
-                            doc[k]['certificate']= newdoc[k]['certificate']
-                            doc[k]['private_key']= newdoc[k]['private_key']
-                        except:
-                            pass
+                        if v.get('ca') and not k in REMOVECA_IGNORES:
+                            print('-------must be new certificate and key-------', k)
+                            try:
+                                doc[k]['ca']= newdoc[k]['ca']
+                                doc[k]['certificate']= newdoc[k]['certificate']
+                                doc[k]['private_key']= newdoc[k]['private_key']
+                            except:
+                                pass
+
+                    elif isca == 'remove_consul_ca':
+                        if v.get('ca') and k in CONSULCA:
+                            print('-------must be new certificate and key-------', k)
+                            try:
+                                doc[k]['ca']= newdoc[k]['ca']
+                                doc[k]['certificate']= newdoc[k]['certificate']
+                                doc[k]['private_key']= newdoc[k]['private_key']
+                            except:
+                                pass
 
 
     with open(outname, 'w') as yaml_file:
