@@ -13,13 +13,13 @@
 
 1. add new ca
 
-    python cf-cert-rotate.py -c **addca** -o <temp old certfile> -n <temp new certfile> -r <certfile>
+    python cf-cert-rotate.py -c **addca** -o [temp old certfile] -n [temp new certfile] -r [result certfile]
 
 1. deploy CloudFoundry and Others
 
 1. remove old ca
 
-    python cf-cert-rotate.py -c removeca -o <temp old certfile> -n <temp new certfile> -r <certfile>
+    python cf-cert-rotate.py -c **removeca** -o [temp old certfile] -n [temp new certfile] -r [result certfile]
 
 1. deploy CloudFoundry again and Others
 
