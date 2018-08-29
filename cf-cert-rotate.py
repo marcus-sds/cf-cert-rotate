@@ -13,7 +13,6 @@ DEBUG=False
 
 ADDCA_IGNORES=['diego_rep_agent_v2',"consul_agent","consul_server"]
 REMOVECA_IGNORES=["consul_agent_ca"]
-CONSULCA=["consul_agent_ca"]
 
 def chk_cert(results, isca, oldfile, newfile, outname):
     oldstream = open(oldfile,'r')
@@ -40,6 +39,7 @@ def chk_cert(results, isca, oldfile, newfile, outname):
                                 doc[k]['ca']= doc[k]['ca']+newdoc[k]['ca']
                                 doc[k]['certificate']= doc[k]['certificate']+newdoc[k]['certificate']
                             except:
+                                print('-------not changed -------', k)
                                 pass
 
                     elif isca == 'removeca':
@@ -50,6 +50,7 @@ def chk_cert(results, isca, oldfile, newfile, outname):
                                 doc[k]['certificate']= newdoc[k]['certificate']
                                 doc[k]['private_key']= newdoc[k]['private_key']
                             except:
+                                print('-------not changed -------', k)
                                 pass
                         elif v.get('ca'):
                             print('-------must be old,new certificate orders-------', k)
@@ -57,16 +58,18 @@ def chk_cert(results, isca, oldfile, newfile, outname):
                                 doc[k]['ca']= doc[k]['ca']+newdoc[k]['ca']
                                 doc[k]['certificate']= doc[k]['certificate']+newdoc[k]['certificate']
                             except:
+                                print('-------not changed -------', k)
                                 pass
 
-                    elif isca == 'remove_consul_ca':
-                        if v.get('ca') and k in CONSULCA:
+                    elif isca == 'newca':
+                        if v.get('ca'):
                             print('-------must be new certificate and key-------', k)
                             try:
                                 doc[k]['ca']= newdoc[k]['ca']
                                 doc[k]['certificate']= newdoc[k]['certificate']
                                 doc[k]['private_key']= newdoc[k]['private_key']
                             except:
+                                print('-------not changed -------', k)
                                 pass
 
 
