@@ -51,6 +51,16 @@ def chk_cert(results, isca, oldfile, newfile, outname):
                                 doc[k]['private_key']= newdoc[k]['private_key']
                             except:
                                 pass
+<<<<<<< HEAD
+=======
+                        elif v.get('ca'):
+                            print('-------must be old,new certificate orders-------', k)
+                            try:
+                                doc[k]['ca']= doc[k]['ca']+newdoc[k]['ca']
+                                doc[k]['certificate']= doc[k]['certificate']+newdoc[k]['certificate']
+                            except:
+                                pass
+>>>>>>> removeca bug fix
 
                     elif isca == 'remove_consul_ca':
                         if v.get('ca') and k in CONSULCA:
