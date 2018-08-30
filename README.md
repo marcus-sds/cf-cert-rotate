@@ -7,15 +7,15 @@
     
 ## Rotate
 
-1. Backup Current varstore file
+1. **Backup Current varstore file** to [temp old certfile]
 
-1. Create New cert file with var-store options
+1. **Create New cert file** [temp new certfile] with var-store options
 
 1. add new ca
 
     python cf-cert-rotate.py -c **addca** -o [temp old certfile] -n [temp new certfile] -r [result certfile]
     
-    > result_certfile should be varstore file when deploy cf
+    > [result certfile] should be varstore file when deploy cf
 
 1. deploy CloudFoundry and Others
 
@@ -29,7 +29,7 @@
 
 1. remove old consul ca
 
-    python cf-cert-rotate.py -c **remove_consul_ca** -o [temp old certfile] -n [temp new certfile] -r [result certfile]
+    python cf-cert-rotate.py -c **newca** -o [temp old certfile] -n [temp new certfile] -r [result certfile]
 
     > result_certfile should be varstore file when deploy cf
 
